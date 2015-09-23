@@ -4,7 +4,7 @@ game.state.add('Boot', Runner.Boot);
 game.state.add('preload', Runner.preload);
 game.state.add('mainMenu',Runner.mainMenu);
 
-
+game.state.add('Game',Runner.Game);
 
 game.state.start('Boot');
 //game.state.start('preload');
