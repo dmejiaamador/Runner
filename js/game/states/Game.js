@@ -1,26 +1,23 @@
 Runner.Game = function () {
     this.playerMinAngle = -20;
     this.playerMaxAngle = 20;
-    
+
     this.coinRate = 1000;
     this.coinTimer = 0;
-    
+
     this.enemyRate= 500;
     this.enemyTimer=0;
-    
+
     this.score =0;
-    
+
     //this.stText= this.game.add.bitmapText(10,10,'minecraftia','Score: ',20);
-     
+
 }
 
 Runner.Game.prototype = {
 
     create: function () {
-        
-        
-        
-        
+
         // tile sprite lets you tile the image as manytimes as you like... I think it make the image repeat paramerters are(width, height,width              repeat, height repeate, asset hey)
         this.background = this.game.add.tileSprite(0, 0, this.game.width, 512, 'background');
         this.background.autoScroll(-100, 0);
@@ -55,19 +52,19 @@ Runner.Game.prototype = {
         this.ground.body.allowGravity = false;
         this.ground.body.immovable = true;
 
-        //adding gravity to player so that it will be affected by it 
+        //adding gravity to player so that it will be affected by it
         this.physics.arcade.enableBody(this.player);
         //this line will make it so that the player doesnt fall through the window of the game. this is good but this alone  isnt           going           to stop it from going throught the ground sprite.
         this.player.body.collideWorldBounds = true;
-        //this will make him bounce of the stage when he falls 
+        //this will make him bounce of the stage when he falls
         this.player.body.bounce.set(.5);
 
 
         // to add Coins add a group so that you can add coin on whim
 
         this.coins = this.game.add.group();
-        
-        
+
+
         //enemy group
         this.enemies = this.game.add.group();
         this.scoreText = this.game.add.bitmapText(10,10,'minecraftia','Score: 0', 32);
@@ -75,10 +72,7 @@ Runner.Game.prototype = {
     },
 
     update: function () {
-        // this the function that checks for the collision;
-        this.game.physics.arcade.collide(this.player, this.ground);
-        this.game.physics.arcade.overlap(this.player,this.coins,this.coinHit,null,this);
-        this.game.physics.arcade.overlap(this.player,this.enemies,this.enemiyHit,null,this);
+
         // to make player move and record user imput
         if (this.game.input.activePointer.isDown) {
             this.player.body.velocity.y -= 25;
@@ -104,19 +98,35 @@ Runner.Game.prototype = {
             this.createCoin();
             this.coinTimer = this.game.time.now + this.coinRate;
         }
-        
+
          if (this.enemyTimer < this.game.time.now) {
             this.createEnemy();
             this.enemyTimer = this.game.time.now + this.enemyRate;
         }
+
+        // this the function that checks for the collision;
+        this.game.physics.arcade.collide(this.player, this.ground,this.groundHit,null,this);
+        this.game.physics.arcade.overlap(this.player,this.coins,this.coinHit,null,this);
+        this.game.physics.arcade.overlap(this.player,this.enemies,this.enemyHit,null,this);
+    },
+
+    groundHit: function(player, ground) {
+        player.body.velocity.y = -200;
     },
 
     //missing ground hit function... look at player movement end of vidoe
     shutdown: function () {
+      // review video for it. destroy apperently gets rid of all the empty coins and enemies groups and allows garbage colletion to pick it up
+      this.coins.destroy();
+      this.enemies.destroy();
+      this.score = 0;
+      this.coinTimer = 0;
+      this. enemyTimer = 0;
 
     },
 
     createCoin: function () {
+        console.log('coin is collected');
         var x = this.game.width;
         var y = this.game.rnd.integerInRange(50, this.game.world.height - 192);
         var coin = this.coins.getFirstExists(false);
@@ -128,8 +138,8 @@ Runner.Game.prototype = {
         coin.revive();
 
     },
-    
-    
+
+
      createEnemy: function () {
         var x = this.game.width;
         var y = this.game.rnd.integerInRange(50, this.game.world.height - 192);
@@ -141,18 +151,30 @@ Runner.Game.prototype = {
         enemy.reset(x, y);
         enemy.revive();
      },
-    
+
     coinHit: function (player,coin){
         this.score++;
         this.scoreText.text = 'Score: ' + this.score;
         coin.kill();
-        
+
     },
-    
+
     enemyHit: function (player,enemy){
-       
-        
+      player.kill();
+      enemy.kill();
+      this.ground.stopScroll();
+      this.foreground.stopScroll();
+      this.background.stopScroll();
+
+      this.enemies.setAll('body.velocity.x',0);
+      this.coins.setAll('body.velocity.x',0);
+
+      this.enemyTimer=Number.MAX_VALUE;
+      this.coinTimer=Number.MAX_VALUE;
+      var scoreboard = new Scoreboard(this.game);
+      scoreboard.show(this.score);
+
     }
 
-    
-}
+
+};

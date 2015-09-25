@@ -3,7 +3,7 @@ Runner.mainMenu = function() {};
 Runner.mainMenu.prototype = {
     
     create: function() {
-        // tile sprite lets you tile the image as manytimes as you like... I think it make the image repeat paramerters are(width, height,width repeate, height repeate, asset hey)
+        // tile sprite lets you tile the image as manytimes as you like... I think it make the image repeat paramerters are(width,                  height,width repeate, height repeate, asset hey)
         this.background= this.game.add.tileSprite(0,0,this.game.width,512,'background');
         this.background.autoScroll(-100,0);
         
