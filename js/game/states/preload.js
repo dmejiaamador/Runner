@@ -15,15 +15,16 @@ Runner.preload.prototype = {
         // here you load all the game images and what not
         
 
-        this.load.image('ground', 'assests/images/ground.png');
+        this.load.image('ground', 'assests/images/ground2.png');
         this.load.image('background', 'assests/images/background.png');
-        this.load.image('foreground', 'assests/images/foreground.png');
+        this.load.image('foreground', 'assests/images/foreground2.png');
         
         //sprite hseets are dofferent
         //(monicer, path,width og each image, heigh of image, how many in sprite sheet
         this.load.spritesheet('coins', 'assests/images/coins-ps.png', 51 , 51, 7);
-        this.load.spritesheet('player', 'assests/images/jetpack-ps.png', 229, 296, 4);
-        this.load.spritesheet('missile','assests/images/missiles-ps.png', 361, 218, 4);
+        this.load.atlas('player', 'assests/images/peachSheet.png', 'assests/images/peach.JSON', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH );
+        this.load.atlas('missile','assests/images/Enemy.png ','assests/images/Enemy.JSON',Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+        
         
         // now lets load music
         // (monicer,[array of music so that web browser will decide which to play)
@@ -33,7 +34,7 @@ Runner.preload.prototype = {
         this.load.audio('bounce', 'assests/audio/bounce.wav');
         this.load.audio('coin', 'assests/audio/coin.wav');
         this.load.audio('death', 'assests/audio/death.wav');
-        
+        7
         // loading bitmap fonts
         
         this.load.bitmapFont('minecraftia', 'assests/fonts/minecraftia/minecraftia.png','assests/fonts/minecraftia/minecraftia.xml');

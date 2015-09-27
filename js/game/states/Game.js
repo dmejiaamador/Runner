@@ -19,18 +19,20 @@ Runner.Game.prototype = {
     create: function () {
 
         // tile sprite lets you tile the image as manytimes as you like... I think it make the image repeat paramerters are(width, height,width              repeat, height repeate, asset hey)
-        this.background = this.game.add.tileSprite(0, 0, this.game.width, 512, 'background');
+        this.background = this.game.add.tileSprite(0, 0, this.game.width, 254, 'background');
         this.background.autoScroll(-100, 0);
+        this.background.scale.setTo(2.5);
 
         this.foreground = this.game.add.tileSprite(0, 470, this.game.width, this.game.height - 533, 'foreground');
         this.foreground.autoScroll(-100, 0);
+        this.foreground.scale.setTo(2);
 
         this.ground = this.game.add.tileSprite(0, this.game.height - 73, this.game.width, 73, 'ground');
         this.ground.autoScroll(-400, 0);
 
         this.player = this.game.add.sprite(200, this.game.height / 2, 'player');
         this.player.anchor.setTo(.5);
-        this.player.scale.setTo(0.3);
+        this.player.scale.setTo(2);
 
         // to animate sprite
         //animations.add with parameters (key, and array of pictures to run through. defined in preload.js when spritesheet was first loaded
